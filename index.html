@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,134 +10,76 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
-            /* bg-gray-100 */
             color: #1f2937;
-            /* text-gray-800 */
         }
-
         .main-container {
             grid-template-columns: auto 1fr;
         }
-
         .sidebar {
             background-color: #ffffff;
-            /* bg-white */
             border-right: 1px solid #e5e7eb;
-            /* border-gray-200 */
         }
-
         .nav-item {
             transition: all 0.2s ease-in-out;
             color: #4b5563;
-            /* text-gray-600 */
         }
-
         .nav-item.active,
         .nav-item:hover {
             background-color: #eef2ff;
-            /* bg-indigo-50 */
             color: #4338ca;
-            /* text-indigo-700 */
         }
-
         .nav-item.active svg,
         .nav-item:hover svg {
             color: #6366f1;
-            /* text-indigo-500 */
         }
-
         .content-card {
             background-color: #ffffff;
-            /* bg-white */
             border: 1px solid #e5e7eb;
-            /* border-gray-200 */
             border-radius: 1rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
         }
-
         .custom-scrollbar::-webkit-scrollbar {
             width: 5px;
         }
-
         .custom-scrollbar::-webkit-scrollbar-track {
             background: #e5e7eb;
         }
-
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #9ca3af;
             border-radius: 20px;
         }
 
-        /* New vibrant risk colors */
-        .risk-low {
-            color: #166534;
-        }
+        /* High-contrast pastel backgrounds for UI elements */
+        .risk-low { color: #166534; } .border-risk-low { border-color: #4ade80; } .bg-risk-low { background-color: #dcfce7; }
+        .risk-moderate { color: #854d0e; } .border-risk-moderate { border-color: #facc15; } .bg-risk-moderate { background-color: #fef9c3; }
+        .risk-high { color: #991b1b; } .border-risk-high { border-color: #f87171; } .bg-risk-high { background-color: #fee2e2; }
 
-        .border-risk-low {
-            border-color: #4ade80;
-        }
-
-        .bg-risk-low {
-            background-color: #1edd11ab;
-        }
-
-        .risk-moderate {
-            color: #854d0e;
-        }
-
-        .border-risk-moderate {
-            border-color: #facc15;
-        }
-
-        .bg-risk-moderate {
-            background-color: #ffe600ad;
-        }
-
-        .risk-high {
-            color: #991b1b;
-        }
-
-        .border-risk-high {
-            border-color: #f87171;
-        }
-
-        .bg-risk-high {
-            background-color: #f20000a0;
-        }
+        /* VIBRANT indicator colors to make them "pop" on the mannequin */
+        .indicator-low { background-color: #4ade80; }
+        .indicator-moderate { background-color: #facc15; }
+        .indicator-high { background-color: #f87171; }
 
         .page,
         #login-page,
         #app-container {
             display: none;
         }
-
         .page.active,
         #login-page.active,
         #app-container.active {
             display: block;
         }
-
         #app-container.active {
             display: grid;
         }
-
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
         .page.active,
         #login-page.active {
             animation: fadeIn 0.5s ease-out forwards;
         }
-
         .health-indicator-wrapper {
             position: relative;
             width: 100%;
@@ -147,7 +88,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .health-indicator {
             position: absolute;
             border-radius: 9999px;
@@ -156,52 +96,15 @@
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
             transition: background-color 0.3s ease-in-out;
         }
-
-        /* Repositioned circles for the new image */
-        #health-head {
-            top: 10%;
-            left: 45.7%;
-            width: 9%;
-            padding-bottom: 9%;
-        }
-
-        #health-torso {
-            top: 22%;
-            left: 39%;
-            width: 22%;
-            padding-bottom: 22%;
-        }
-
-        #health-left-arm {
-            top: 33%;
-            left: 26.25%;
-            width: 9%;
-            padding-bottom: 9%;
-        }
-
-        #health-right-arm {
-            top: 33%;
-            left: 63%;
-            width: 9%;
-            padding-bottom: 9%;
-        }
-
-        #health-left-leg {
-            top: 60%;
-            left: 35%;
-            width: 11%;
-            padding-bottom: 11%;
-        }
-
-        #health-right-leg {
-            top: 60%;
-            left: 53%;
-            width: 11%;
-            padding-bottom: 11%;
-        }
+        
+        #health-head { top: 10%; left: 45.7%; width: 9%; padding-bottom: 9%; }
+        #health-torso { top: 22%; left: 39%; width: 22%; padding-bottom: 22%; }
+        #health-left-arm { top: 33%; left: 26.25%; width: 9%; padding-bottom: 9%; }
+        #health-right-arm { top: 33%; left: 63%; width: 9%; padding-bottom: 9%; }
+        #health-left-leg { top: 60%; left: 35%; width: 11%; padding-bottom: 11%; }
+        #health-right-leg { top: 60%; left: 53%; width: 11%; padding-bottom: 11%; }
     </style>
 </head>
-
 <body class="h-screen overflow-hidden">
 
     <!-- Loading Overlay -->
@@ -300,6 +203,8 @@
                                 <rect width="7" height="9" x="14" y="12" rx="1" />
                                 <rect width="7" height="5" x="3" y="16" rx="1" />
                             </svg><span class="hidden xl:block font-medium">Dashboard</span></a></li>
+                    <li><a href="#" class="nav-item flex items-center gap-4 p-3 rounded-lg"
+                            data-page="health"><svg class="h-6 w-6 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><span class="hidden xl:block font-medium">Worker Health</span></a></li>
                     <li><a href="#" class="nav-item flex items-center gap-4 p-3 rounded-lg" data-page="analytics"><svg
                                 class="h-6 w-6 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -448,9 +353,10 @@
                             class="font-semibold text-gray-800"></span>.</p>
                 </header>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-10rem)]">
-                    <div class="content-card p-6 flex items-center justify-center">
+                    <div class="content-card p-6 flex items-center justify-center h-full">
                         <div class="health-indicator-wrapper">
-                            <img src="manniquine.jpg" alt="Human Body" class="w-[1020px] h-auto object-contain">
+                            <img src="https://i.ibb.co/bXkVgvy/Gemini-Generated-Image-3alx523alx523alx.jpg" alt="Human Body"
+                                class="h-full w-auto object-contain">
                             <div id="health-head" class="health-indicator"></div>
                             <div id="health-torso" class="health-indicator"></div>
                             <div id="health-left-arm" class="health-indicator"></div>
@@ -620,6 +526,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script>
@@ -637,26 +544,38 @@
 
         // --- Initial Data Generation ---
         function generateInitialData() {
-            const names = ["John Doe", "Jane Smith", "Peter Jones", "Sue Williams", "Mike Brown", "Emily Clark", "David Lee", "Sarah Chen"];
+            const names = ["Sachin Tendulkar", "Virat Kohli", "MS Dhoni", "Yuvraj singh", "Ab Diviliars", "Kane Williamson", "Joe Root", "Bumrah"];
             names.forEach((name, index) => {
                 const riskLevels = ['Low', 'Moderate', 'High'];
-                const risk = riskLevels[index % 3];
-                let hrv = 70 - (index % 3) * 15;
-
+                const initialRisk = riskLevels[index % 3];
+                
                 const worker = {
-                    id: index + 1, name: name, short: name.split(' ').map(n => n[0]).join(''), risk: risk, hrv: hrv,
-                    temp: 24 + Math.random() * 2, co2: 450 + Math.random() * 100, noise: 60 + Math.random() * 5,
-                    status: risk === 'High' ? "Fatigue Detected" : (risk === 'Moderate' ? "Drowsiness Alert" : "Normal"),
-                    hrvHistory: [], co2History: [],
+                    id: index + 1,
+                    name: name,
+                    short: name.split(' ').map(n => n[0]).join(''),
+                    risk: initialRisk,
+                    // Store baselines for more realistic simulation
+                    baseHrv: 75 - (index % 3) * 15,
+                    baseTemp: 24.5,
+                    baseCo2: 480,
+                    baseNoise: 62,
+                    // Live values
+                    hrv: 75 - (index % 3) * 15,
+                    temp: 24.5,
+                    co2: 480,
+                    noise: 62,
+                    status: initialRisk === 'High' ? "Fatigue Detected" : (initialRisk === 'Moderate' ? "Drowsiness Alert" : "Normal"),
+                    hrvHistory: [],
+                    co2History: [],
                     health: {
-                        strain: (risk === 'High' ? 85 : (risk === 'Moderate' ? 60 : 25)) + Math.random() * 5,
-                        coreTemp: 37.0 + (index % 3) * 0.2 + (Math.random() - 0.5) * 0.1,
-                        skinTemp: 34.0 + (index % 3) * 0.3 + (Math.random() - 0.5) * 0.2,
-                        hr: 70 + (index % 3) * 10 + Math.random() * 5,
+                        strain: (initialRisk === 'High' ? 85 : (initialRisk === 'Moderate' ? 60 : 25)),
+                        coreTemp: 37.0 + (index % 3) * 0.2,
+                        skinTemp: 34.0 + (index % 3) * 0.3,
+                        hr: 70 + (index % 3) * 10,
                         spo2: 98 - (index % 3) * 1,
-                        movement: risk === 'High' ? 'Low' : 'Normal',
-                        aqi: 25 + Math.random() * 10,
-                        humidity: 55 + Math.random() * 10,
+                        movement: initialRisk === 'High' ? 'Low' : 'Normal',
+                        aqi: 25,
+                        humidity: 55,
                     }
                 };
                 const now = new Date();
@@ -717,14 +636,14 @@
 
         function renderWorkerList() {
             const listEl = document.getElementById('worker-list');
-            if (!listEl) return; // FIX: Guard clause to prevent error on other pages
+            if (!listEl) return;
             listEl.innerHTML = workers.map(w => `
-            <div id="worker-${w.id}" class="worker-item p-3 rounded-lg cursor-pointer flex items-center justify-between transition-all duration-200 ${selectedWorkerId === w.id && currentPage === 'dashboard' ? 'bg-indigo-500 shadow-lg' : 'hover:bg-gray-100'}">
+            <div id="worker-${w.id}" class="worker-item p-3 rounded-lg cursor-pointer flex items-center justify-between transition-all duration-200 ${selectedWorkerId === w.id && (currentPage === 'dashboard' || currentPage === 'health') ? 'bg-indigo-500 shadow-lg' : 'hover:bg-gray-100'}">
                 <div class="flex items-center gap-3">
                     <img src="https://placehold.co/40x40/eef2ff/4338ca?text=${w.short}" class="worker-pfp rounded-full h-10 w-10" data-id="${w.id}">
                     <div>
-                        <p class="font-semibold ${selectedWorkerId === w.id && currentPage === 'dashboard' ? 'text-white' : 'text-gray-800'}">${w.name}</p>
-                        <p class="text-xs ${selectedWorkerId === w.id && currentPage === 'dashboard' ? 'text-indigo-200' : 'text-gray-500'}">ID: WKR-00${w.id}</p>
+                        <p class="font-semibold ${selectedWorkerId === w.id && (currentPage === 'dashboard' || currentPage === 'health') ? 'text-white' : 'text-gray-800'}">${w.name}</p>
+                        <p class="text-xs ${selectedWorkerId === w.id && (currentPage === 'dashboard' || currentPage === 'health') ? 'text-indigo-200' : 'text-gray-500'}">ID: WKR-00${w.id}</p>
                     </div>
                 </div>
                 <span class="text-xs font-bold py-1 px-2 rounded-md ${riskConfig[w.risk].class} ${riskConfig[w.risk].bg}">${w.risk}</span>
@@ -735,10 +654,12 @@
                 const workerId = parseInt(item.id.split('-')[1]);
                 item.addEventListener('click', () => {
                     selectedWorkerId = workerId;
-                    if (currentPage !== 'dashboard') {
+                    // If on a page other than health, switch to dashboard. If already on health, just update data.
+                    if (currentPage !== 'health') {
                         navigateTo('dashboard');
+                    } else {
+                        renderAll();
                     }
-                    renderAll();
                 });
                 item.addEventListener('dblclick', () => {
                     selectedWorkerId = workerId;
@@ -788,15 +709,15 @@
             document.getElementById('health-env-co2').textContent = `${worker.co2.toFixed(0)} ppm`;
             document.getElementById('health-env-noise').textContent = `${worker.noise.toFixed(1)} dB`;
 
-            const riskBg = riskConfig[worker.risk].bg;
-            const lowRiskBg = riskConfig['Low'].bg;
+            const riskIndicatorClass = worker.risk === 'Low' ? 'indicator-low' : worker.risk === 'Moderate' ? 'indicator-moderate' : 'indicator-high';
+            const lowRiskIndicatorClass = 'indicator-low';
 
-            document.getElementById('health-head').className = `health-indicator transition-all duration-300 ${riskBg}`;
-            document.getElementById('health-torso').className = `health-indicator transition-all duration-300 ${riskBg}`;
-            document.getElementById('health-left-arm').className = `health-indicator transition-all duration-300 ${lowRiskBg}`;
-            document.getElementById('health-right-arm').className = `health-indicator transition-all duration-300 ${lowRiskBg}`;
-            document.getElementById('health-left-leg').className = `health-indicator transition-all duration-300 ${lowRiskBg}`;
-            document.getElementById('health-right-leg').className = `health-indicator transition-all duration-300 ${lowRiskBg}`;
+            document.getElementById('health-head').className = `health-indicator transition-all duration-300 ${riskIndicatorClass}`;
+            document.getElementById('health-torso').className = `health-indicator transition-all duration-300 ${riskIndicatorClass}`;
+            document.getElementById('health-left-arm').className = `health-indicator transition-all duration-300 ${lowRiskIndicatorClass}`;
+            document.getElementById('health-right-arm').className = `health-indicator transition-all duration-300 ${lowRiskIndicatorClass}`;
+            document.getElementById('health-left-leg').className = `health-indicator transition-all duration-300 ${lowRiskIndicatorClass}`;
+            document.getElementById('health-right-leg').className = `health-indicator transition-all duration-300 ${lowRiskIndicatorClass}`;
         }
 
         function renderAnalytics(worker) {
@@ -814,12 +735,6 @@
             const riskCounts = workers.reduce((acc, w) => { acc[w.risk]++; return acc; }, { Low: 0, Moderate: 0, High: 0 });
             if (charts.teamRisk) {
                 charts.teamRisk.data.datasets[0].data = Object.values(riskCounts);
-                charts.teamRisk.options.plugins.tooltip.callbacks.label = (context) => {
-                    const label = context.label || '';
-                    const value = context.parsed;
-                    const percentage = ((value / totalWorkers) * 100).toFixed(1);
-                    return `${label}: ${value} (${percentage}%)`;
-                };
                 charts.teamRisk.update();
             }
             if (charts.teamHrv) {
@@ -880,30 +795,91 @@
 
         // --- Chart Initialization ---
         function initializeCharts() {
-            Chart.defaults.color = '#4b5563'; // text-gray-600
-            Chart.defaults.borderColor = '#e5e7eb'; // border-gray-200
+            Chart.register(ChartDataLabels);
+            Chart.defaults.color = '#4b5563';
+            Chart.defaults.borderColor = '#e5e7eb';
             if (document.getElementById('hrvChart')) charts.hrv = new Chart(document.getElementById('hrvChart').getContext('2d'), chartConfig('line', [], 'HRV (ms)', true, 'minute'));
             if (document.getElementById('analyticsHrvChart')) charts.analyticsHrv = new Chart(document.getElementById('analyticsHrvChart').getContext('2d'), chartConfig('line', [], 'HRV (ms)', true, 'minute'));
             if (document.getElementById('analyticsEnvChart')) charts.analyticsEnv = new Chart(document.getElementById('analyticsEnvChart').getContext('2d'), chartConfig('line', [], 'CO₂ (ppm)', true, 'minute', 'rgba(34,197,94,0.2)', '#22c55e'));
             if (document.getElementById('teamHrvChart')) charts.teamHrv = new Chart(document.getElementById('teamHrvChart').getContext('2d'), chartConfig('line', [], 'HRV (ms)', true, 'minute'));
-            if (document.getElementById('teamRiskChart')) charts.teamRisk = new Chart(document.getElementById('teamRiskChart').getContext('2d'), { type: 'doughnut', data: { labels: ['Low Risk', 'Moderate Risk', 'High Risk'], datasets: [{ data: [], backgroundColor: ['#4ade80', '#facc15', '#f87171'], borderColor: '#ffffff', borderWidth: 4, }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { padding: 20 } }, tooltip: { callbacks: {} } } } });
+            if (document.getElementById('teamRiskChart')) charts.teamRisk = new Chart(document.getElementById('teamRiskChart').getContext('2d'), { 
+                type: 'doughnut', 
+                data: { 
+                    labels: ['Low Risk', 'Moderate Risk', 'High Risk'], 
+                    datasets: [{ 
+                        data: [], 
+                        backgroundColor: ['#4ade80', '#facc15', '#f87171'], 
+                        borderColor: '#ffffff', 
+                        borderWidth: 4, 
+                    }] 
+                }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { position: 'bottom', labels: { padding: 20 } },
+                        datalabels: {
+                            formatter: (value, context) => {
+                                return value;
+                            },
+                            color: '#fff',
+                            font: {
+                                weight: 'bold',
+                                size: 16,
+                            }
+                        }
+                    } 
+                } 
+            });
         }
 
         function chartConfig(type, data, yLabel, xDisplay, timeUnit, bgColor = 'rgba(99, 102, 241, 0.1)', borderColor = '#6366f1') {
-            return { type: type, data: { datasets: [{ label: yLabel, data: data, backgroundColor: bgColor, borderColor: borderColor, fill: true, tension: 0.4, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#e5e7eb' }, title: { display: true, text: yLabel, color: '#374151' } }, x: { type: 'time', time: { unit: timeUnit, displayFormats: { minute: 'HH:mm' } }, grid: { display: false }, ticks: { display: xDisplay, color: '#4b5563' } } } } };
+            return { type: type, data: { datasets: [{ label: yLabel, data: data, backgroundColor: bgColor, borderColor: borderColor, fill: true, tension: 0.4, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { display: false } }, scales: { y: { grid: { color: '#e5e7eb' }, title: { display: true, text: yLabel, color: '#374151' } }, x: { type: 'time', time: { unit: timeUnit, displayFormats: { minute: 'HH:mm' } }, grid: { display: false }, ticks: { display: xDisplay, color: '#4b5563' } } } } };
         }
 
         // --- Live Data Feed ---
         function runDataFeed() {
-            workers.forEach(w => {
-                w.hrv += (Math.random() - 0.5) * 1; w.co2 += (Math.random() - 0.5) * 5; w.temp += (Math.random() - 0.5) * 0.1; w.noise += (Math.random() - 0.5) * 2;
-                if (w.risk === 'High') w.hrv -= 0.2; if (w.risk === 'Moderate') w.hrv -= 0.1;
-                if (w.hrv < 45) w.risk = 'High'; else if (w.hrv < 55) w.risk = 'Moderate'; else w.risk = 'Low';
+             workers.forEach(w => {
+                // Fluctuate around baseline
+                w.hrv = w.baseHrv + (Math.random() - 0.5) * 5;
+                w.co2 = w.baseCo2 + (Math.random() - 0.5) * 20;
+                w.temp = w.baseTemp + (Math.random() - 0.5) * 1;
+                w.noise = w.baseNoise + (Math.random() - 0.5) * 10;
+
+                // Stress factors
+                if (w.risk === 'High') w.hrv -= 1.5;
+                if (w.risk === 'Moderate') w.hrv -= 0.7;
+
+                // Recovery factor
+                if (w.risk !== 'Low' && Math.random() < 0.2) { // 20% chance to start recovery
+                   w.hrv += 1.0;
+                }
+
+                // Clamp values to realistic ranges
+                w.hrv = Math.max(30, w.hrv); // Prevent HRV from dropping too low
+                w.noise = Math.max(40, w.noise);
+
+                // Determine risk based on HRV
+                if (w.hrv < 50) w.risk = 'High';
+                else if (w.hrv < 65) w.risk = 'Moderate';
+                else w.risk = 'Low';
+
                 const now = new Date();
-                w.hrvHistory.push({ x: now, y: w.hrv }); if (w.hrvHistory.length > 60) w.hrvHistory.shift();
-                w.co2History.push({ x: now, y: w.co2 }); if (w.co2History.length > 60) w.co2History.shift();
-                if (w.risk === 'High' && Math.random() < 0.05) { logAlert(w, 'High', 'Critical HRV drop detected.'); w.status = "Fatigue Detected"; }
-                else if (w.risk === 'Moderate' && Math.random() < 0.05) { logAlert(w, 'Moderate', 'Elevated stress indicators observed.'); w.status = "Drowsiness Alert"; }
+                w.hrvHistory.push({ x: now, y: w.hrv }); 
+                if (w.hrvHistory.length > 60) w.hrvHistory.shift();
+                
+                w.co2History.push({ x: now, y: w.co2 }); 
+                if (w.co2History.length > 60) w.co2History.shift();
+
+                if (w.risk === 'High' && Math.random() < 0.05) { 
+                    logAlert(w, 'High', 'Critical HRV drop detected.'); 
+                    w.status = "Fatigue Detected";
+                } else if (w.risk === 'Moderate' && Math.random() < 0.05) { 
+                    logAlert(w, 'Moderate', 'Elevated stress indicators observed.'); 
+                    w.status = "Drowsiness Alert";
+                } else if (w.risk === 'Low') {
+                    w.status = "Normal";
+                }
             });
             renderAll();
         }
@@ -1074,5 +1050,5 @@
     </script>
 
 </body>
-
 </html>
+
