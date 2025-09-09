@@ -617,10 +617,11 @@
 
         // --- Render Functions ---
         function renderAll() {
-            renderWorkerList();
+            // Decoupled rendering for responsiveness
+            updateWorkerListUI();
             updatePageContent();
         }
-
+        
         function updatePageContent() {
             const worker = workers.find(w => w.id === selectedWorkerId);
             if (!worker) return;
@@ -638,28 +639,35 @@
             const listEl = document.getElementById('worker-list');
             if (!listEl) return;
             listEl.innerHTML = workers.map(w => `
-            <div id="worker-${w.id}" class="worker-item p-3 rounded-lg cursor-pointer flex items-center justify-between transition-all duration-200 ${selectedWorkerId === w.id && (currentPage === 'dashboard' || currentPage === 'health') ? 'bg-indigo-500 shadow-lg' : 'hover:bg-gray-100'}">
+            <div id="worker-${w.id}" class="worker-item p-3 rounded-lg cursor-pointer flex items-center justify-between transition-all duration-200">
                 <div class="flex items-center gap-3">
                     <img src="https://placehold.co/40x40/eef2ff/4338ca?text=${w.short}" class="worker-pfp rounded-full h-10 w-10" data-id="${w.id}">
                     <div>
-                        <p class="font-semibold ${selectedWorkerId === w.id && (currentPage === 'dashboard' || currentPage === 'health') ? 'text-white' : 'text-gray-800'}">${w.name}</p>
-                        <p class="text-xs ${selectedWorkerId === w.id && (currentPage === 'dashboard' || currentPage === 'health') ? 'text-indigo-200' : 'text-gray-500'}">ID: WKR-00${w.id}</p>
+                        <p class="font-semibold text-gray-800">${w.name}</p>
+                        <p class="text-xs text-gray-500">ID: WKR-00${w.id}</p>
                     </div>
                 </div>
                 <span class="text-xs font-bold py-1 px-2 rounded-md ${riskConfig[w.risk].class} ${riskConfig[w.risk].bg}">${w.risk}</span>
             </div>
         `).join('');
 
-            document.querySelectorAll('.worker-item').forEach(item => {
+            // Attach listeners after list is created
+            attachWorkerListListeners();
+            // Apply initial selection style
+            updateWorkerListSelection();
+        }
+
+        function attachWorkerListListeners() {
+             document.querySelectorAll('.worker-item').forEach(item => {
                 const workerId = parseInt(item.id.split('-')[1]);
                 item.addEventListener('click', () => {
-                    selectedWorkerId = workerId;
-                    // If on a page other than health, switch to dashboard. If already on health, just update data.
-                    if (currentPage !== 'health') {
+                    if (selectedWorkerId === workerId && currentPage !== 'dashboard') {
                         navigateTo('dashboard');
-                    } else {
-                        renderAll();
+                        return;
                     }
+                    selectedWorkerId = workerId;
+                    updateWorkerListSelection(); // Immediate feedback
+                    updatePageContent(); // Update main panel
                 });
                 item.addEventListener('dblclick', () => {
                     selectedWorkerId = workerId;
@@ -675,6 +683,47 @@
                 });
             });
         }
+        
+        // OPTIMIZED: Only update styles, not innerHTML
+        function updateWorkerListUI() {
+            workers.forEach(w => {
+                const itemEl = document.getElementById(`worker-${w.id}`);
+                if (itemEl) {
+                    const badgeEl = itemEl.querySelector('span');
+                    const currentRiskClass = Array.from(badgeEl.classList).find(c => c.startsWith('bg-risk-'));
+                    const newRiskBg = riskConfig[w.risk].bg;
+
+                    if (currentRiskClass !== newRiskBg) {
+                         badgeEl.className = `text-xs font-bold py-1 px-2 rounded-md ${riskConfig[w.risk].class} ${newRiskBg}`;
+                         badgeEl.textContent = w.risk;
+                    }
+                }
+            });
+            updateWorkerListSelection();
+        }
+
+        function updateWorkerListSelection() {
+            document.querySelectorAll('.worker-item').forEach(item => {
+                const workerId = parseInt(item.id.split('-')[1]);
+                const nameEl = item.querySelector('p:first-child');
+                const idEl = item.querySelector('p:last-child');
+
+                if (workerId === selectedWorkerId) {
+                    item.classList.add('bg-indigo-500', 'shadow-lg');
+                    nameEl.classList.add('text-white');
+                    nameEl.classList.remove('text-gray-800');
+                    idEl.classList.add('text-indigo-200');
+                    idEl.classList.remove('text-gray-500');
+                } else {
+                    item.classList.remove('bg-indigo-500', 'shadow-lg');
+                    nameEl.classList.remove('text-white');
+                    nameEl.classList.add('text-gray-800');
+                    idEl.classList.remove('text-indigo-200');
+                    idEl.classList.add('text-gray-500');
+                }
+            });
+        }
+
 
         function renderDashboard(worker) {
             document.getElementById('worker-avatar').src = `https://placehold.co/100x100/eef2ff/4338ca?text=${worker.short}`;
@@ -690,7 +739,7 @@
             document.getElementById('env-noise').textContent = `${worker.noise.toFixed(1)} dB`;
             if (charts.hrv) {
                 charts.hrv.data.datasets[0].data = worker.hrvHistory.slice(-60);
-                charts.hrv.update();
+                charts.hrv.update('none');
             }
         }
 
@@ -725,8 +774,8 @@
             if (charts.analyticsHrv) {
                 charts.analyticsHrv.data.datasets[0].data = worker.hrvHistory;
                 charts.analyticsEnv.data.datasets[0].data = worker.co2History;
-                charts.analyticsHrv.update();
-                charts.analyticsEnv.update();
+                charts.analyticsHrv.update('none');
+                charts.analyticsEnv.update('none');
             }
         }
 
@@ -735,7 +784,7 @@
             const riskCounts = workers.reduce((acc, w) => { acc[w.risk]++; return acc; }, { Low: 0, Moderate: 0, High: 0 });
             if (charts.teamRisk) {
                 charts.teamRisk.data.datasets[0].data = Object.values(riskCounts);
-                charts.teamRisk.update();
+                charts.teamRisk.update('none');
             }
             if (charts.teamHrv) {
                 const teamHrvHistory = charts.teamHrv.data.datasets[0].data;
@@ -746,7 +795,7 @@
                 const teamHrvAvg = workers.reduce((acc, w) => acc + w.hrv, 0) / workers.length;
                 teamHrvHistory.push({ x: now, y: teamHrvAvg });
                 if (teamHrvHistory.length > 60) teamHrvHistory.shift();
-                charts.teamHrv.update();
+                charts.teamHrv.update('none');
             }
         }
 
@@ -760,7 +809,7 @@
                 return `
             <div class="p-4 rounded-lg flex flex-col gap-4 ${riskConfig[alert.risk].bg}">
                 <div class="flex items-start gap-4">
-                    <div class="w-1.5 h-full bg-${riskConfig[alert.risk].class.split('-')[1]} rounded-full"></div>
+                    <div class="w-1.5 h-full ${riskConfig[alert.risk].bg} rounded-full"></div>
                     <div>
                         <p class="font-medium ${riskConfig[alert.risk].class}">${alert.risk} Risk Event: ${alert.workerName}</p>
                         <p class="text-gray-700">${alert.message}</p>
@@ -819,10 +868,8 @@
                     plugins: { 
                         legend: { position: 'bottom', labels: { padding: 20 } },
                         datalabels: {
-                            formatter: (value, context) => {
-                                return value;
-                            },
-                            color: '#fff',
+                            formatter: (value) => value > 0 ? value : '',
+                            color: (context) => context.dataset.backgroundColor[context.dataIndex] === '#facc15' ? '#854d0e' : '#fff',
                             font: {
                                 weight: 'bold',
                                 size: 16,
@@ -881,7 +928,9 @@
                     w.status = "Normal";
                 }
             });
-            renderAll();
+            // Optimized rendering calls
+            updateWorkerListUI();
+            updatePageContent();
         }
 
         function logAlert(worker, risk, message) {
@@ -1025,6 +1074,7 @@
             localStorage.removeItem('sentinelAlerts');
             generateInitialData();
             initializeCharts();
+            renderWorkerList(); // Initial render
 
             document.getElementById('login-form').addEventListener('submit', handleLogin);
             document.getElementById('logout-button').addEventListener('click', handleLogout);
@@ -1042,8 +1092,8 @@
 
             logAlert(workers[2], 'High', 'High fatigue detected at shift start.');
             logAlert(workers[1], 'Moderate', 'Multiple yawn events detected via vision system.');
-
-            renderAll();
+            
+            updatePageContent(); // Render initial page content
             setInterval(runDataFeed, 2000);
             document.getElementById('loading-overlay').style.display = 'none';
         });
